@@ -23,3 +23,9 @@ with ceiling_model:
     if __name__ == '__main__':
         with ceiling_model:
             trace = pm.sample(1000,tune=1000)
+            # print results of sampling
+            print(pm.summary(trace))
+            pm.plot_trace(trace)
+            plt.show()
+
+    
