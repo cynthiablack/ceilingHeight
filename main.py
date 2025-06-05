@@ -13,10 +13,11 @@ with ceiling_model:
     baseline = pm.Normal('baseline', mu=7500, sigma=1000) # use first low-ceiling value from data set
     temperature_effect = pm.Normal('temperature_effect', mu=0, sigma=10)
     humidity_effect = pm.Normal('humidity_effect', mu=0, sigma=10)
+    dewpoint_effect = pm.Normal('dewpoint_effect', mu=0, sigma=10)
     windspeed_effect = pm.Normal('windspeed_effect', mu=0, sigma=10)
 
     # expected value of outcome
-    ceiling_prediction = baseline + temperature_effect * METAR['tmpf'] + humidity_effect * METAR['relh'] + windspeed_effect * METAR['sknt']
+    ceiling_prediction = baseline + temperature_effect * METAR['tmpf'] + humidity_effect * METAR['relh'] + dewpoint_effect * METAR['dwpf'] + windspeed_effect * METAR['sknt']
 
     # likelihood (sampling distribution) of observations
     ceiling_obs = pm.HalfNormal("ceiling_obs", sigma=500, observed=METAR['ceiling'])
