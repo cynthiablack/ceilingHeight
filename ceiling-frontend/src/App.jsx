@@ -1,10 +1,14 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+   const [date, setDate] = useState('');
+
+          function DatePicker(date, setDate) {
+            return (
+              <input type="date" value={date} />
+            )
+          }
 
   return (
     <>
@@ -16,6 +20,7 @@ function App() {
       {/* interactive inputs */}
         <section>
           {/* TODO: date picker here */}
+          <DatePicker date={date} setDate={setDate} />
         </section>
         {/* visualizations */}
         <section>
