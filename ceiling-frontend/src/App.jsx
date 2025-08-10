@@ -2,13 +2,17 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-   const [date, setDate] = useState('');
+  const [date, setDate] = useState('');
 
-          function DatePicker(date, setDate) {
-            return (
-              <input type="date" value={date} />
-            )
-          }
+  function DatePicker({date, setDate}) {
+    return (
+      <input 
+        type="date" 
+        value={date} 
+        onChange={(e) => setDate(e.target.value)}
+      />
+    )
+  }
 
   return (
     <>
