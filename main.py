@@ -3,8 +3,16 @@ import numpy as np
 import pandas as pd
 import pymc as pm
 
-# import METAR values
-METAR = pd.read_csv('PANC_METAR_cleaned.csv')
+# import METAR values with date parsing
+METAR = pd.read_csv('PANC_METAR_cleaned.csv', parse_dates=['valid'])
+# sort dates - required for rolling average function
+METAR = METAR.set_index("valid").sort_index()
+
+# calculate 3-hour rolling averages
+temperature_effect_3hour = METAR['tmpf'].rolling("3H").mean()
+humidity_effect_3hour = METAR['relh'].rolling("3H").mean()
+dewpoint_effect_3hour = METAR['dwpf'].rolling("3H").mean()
+windspeed_effect_3hour = METAR['sknt'].rolling("3H").mean()
 
 ceiling_model = pm.Model()
 
