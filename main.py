@@ -9,10 +9,10 @@ METAR = pd.read_csv('PANC_METAR_cleaned.csv', parse_dates=['valid'])
 METAR = METAR.set_index("valid").sort_index()
 
 # calculate 3-hour rolling averages
-temperature_effect_3hour = METAR['tmpf'].rolling("3H").mean()
-humidity_effect_3hour = METAR['relh'].rolling("3H").mean()
-dewpoint_effect_3hour = METAR['dwpf'].rolling("3H").mean()
-windspeed_effect_3hour = METAR['sknt'].rolling("3H").mean()
+temperature_3hour_average = METAR['tmpf'].rolling("3H").mean()
+humidity_3hour_average = METAR['relh'].rolling("3H").mean()
+dewpoint_3hour_average = METAR['dwpf'].rolling("3H").mean()
+windspeed_3hour_average = METAR['sknt'].rolling("3H").mean()
 
 ceiling_model = pm.Model()
 
@@ -25,7 +25,7 @@ with ceiling_model:
     windspeed_effect = pm.Normal('windspeed_effect', mu=0, sigma=10)
 
     # expected value of outcome
-    ceiling_prediction = baseline + temperature_effect * METAR['tmpf'] + humidity_effect * METAR['relh'] + dewpoint_effect * METAR['dwpf'] + windspeed_effect * METAR['sknt']
+    ceiling_prediction = baseline + temperature_3hour_average * METAR['tmpf'] + humidity_3hour_average * METAR['relh'] + dewpoint_3hour_average * METAR['dwpf'] + windspeed_3hour_average * METAR['sknt']
 
     # likelihood (sampling distribution) of observations
     ceiling_obs = pm.HalfNormal("ceiling_obs", sigma=500, observed=METAR['ceiling'])
